@@ -35,12 +35,12 @@ export const Header = () => {
 ]
   return (
     <Navbar fluid={true}>
-      <Navbar.Container className="flex items-center justify-between">
+      <Navbar.Container className="flex items-center justify-between overflow-x-hidden">
         <Navbar.Container className="flex items-center">
-          <Navbar.Divider></Navbar.Divider>
+          {/* <Navbar.Divider></Navbar.Divider> */}
           <Navbar.Container
             tag="ul"
-            className="lg:flex hidden items-center justify-between gap-8"
+            className="lg:flex hidden items-center justify-around w-screen"
           >
             {navItems.map((item)=>
               (item.active ? (<button  key={item.name} onClick={()=> navigate(item.slug)} className="pb-10 black-400"><Navbar.Link key={item.name} />{item.name}</button> ): null )
@@ -56,12 +56,6 @@ export const Header = () => {
         </Navbar.Container>
 
         <Navbar.Container className="flex gap-2">
-          <Button size="sm" type="link">
-            <span>
-              <MagnifyingGlass size={20} color="#444" />
-            </span>
-            <span className="ml-2 text-metal-600">Search</span>
-          </Button>
           {authStatus ? <Logout/> : null}
           <Navbar.Toggle />
         </Navbar.Container>

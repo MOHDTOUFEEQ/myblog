@@ -16,7 +16,7 @@ function AuthenticatedHome() {
   return (
     <>
       <h1>
-          <div className="h-screen flex flex-wrap  gap-10 p-8">
+          <div className="min-h-screen  flex flex-wrap  gap-10 px-5 overflow-x-hidden">
             {posts.map((val) => (
                 <div key={val.id} className="w-full  md:w-1/2 lg:w-1/3 xl:w-1/4 mb-10">
                    <Link to={`/homeview/${val.$id}`}>
