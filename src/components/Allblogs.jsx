@@ -6,10 +6,6 @@ import { Link } from 'react-router-dom';
 function Allblogs() {
     const userid = useSelector((state)=> state.auth.userData)
     const [posts, setPosts] = useState([])
-    posts.map((e)=>{
-        console.log(e.title);
-    })
-    console.log(posts);
     useEffect(() => {
         async function fetching() {
             try {

@@ -49,7 +49,7 @@ export const Header = () => {
           <Navbar.Collapse collapseType="sidebar">
             <Navbar.Container tag="ul" className="flex flex-col gap-5">
             {navItems.map((item)=>
-              (item.active ? (<Navbar.Link linkName= {item.name} />): null )
+              (item.active ? (<button  key={item.name} onClick={()=> navigate(item.slug)} className="pb-10 black-400"><Navbar.Link key={item.name} />{item.name}</button> ): null )
             )}
             </Navbar.Container>
           </Navbar.Collapse>

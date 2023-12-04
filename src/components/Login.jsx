@@ -24,8 +24,6 @@ function Login() {
             setError(error.message)
         }
     }
-    const user_info = useSelector((state) => state.auth.userData);
-    console.log(user_info);
 
   return (
     <section class="h-screen rounded-md">
