@@ -51,7 +51,7 @@ function Postform({post}) {
       }
     }
   return (
-    <div className="max-w-3xl mx-auto mt-8">
+    <div className="max-w-3xl mx-auto mt-8 px-1">
       <div className="bg-green-200 p-4 rounded-md mb-4">
       <p className="text-sm">⚠️ Avoid special characters in the title for a smoother experience. Updates for more flexibility coming soon!</p>
 
