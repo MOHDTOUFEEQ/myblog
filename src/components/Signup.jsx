@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { login as authlogin } from '../store/authSlice';
 import { useDispatch } from 'react-redux'
 import { useForm } from "react-hook-form";
@@ -7,6 +7,7 @@ import authService from '../appwrite/auth';
 function Signup() {
 
     const navigate = useNavigate()
+    const[error,setError] = useState()
     const dispatch = useDispatch()
     const {register, handleSubmit} = useForm()
     
@@ -19,7 +20,7 @@ function Signup() {
                 navigate("/login")
             }
         } catch (error) {
-            console.log("bro we have an error in sign up form", error);
+            setError(error.message)
         }
     }
     return (
@@ -129,6 +130,9 @@ function Signup() {
                     </div>
                 </div>
                 </form>
+                <div class="mt-3 space-y-3">
+                    {error ? <p>{error}</p> : null}
+                </div>
             </div>
             </div>
             <div class="h-full w-full">

@@ -35,6 +35,7 @@ export const Header = () => {
 ]
   return (
     <Navbar fluid={true}>
+
       <Navbar.Container className="flex items-center justify-between overflow-x-hidden">
         <Navbar.Container className="flex items-center">
           {/* <Navbar.Divider></Navbar.Divider> */}
@@ -45,6 +46,7 @@ export const Header = () => {
             {navItems.map((item)=>
               (item.active ? (<button  key={item.name} onClick={()=> navigate(item.slug)} className="pb-10 black-400"><Navbar.Link key={item.name} />{item.name}</button> ): null )
             )}
+          {authStatus ? <Logout/> : null}
           </Navbar.Container>
           <Navbar.Collapse collapseType="sidebar">
             <Navbar.Container tag="ul" className="flex flex-col gap-5">
@@ -55,10 +57,7 @@ export const Header = () => {
           </Navbar.Collapse>
         </Navbar.Container>
 
-        <Navbar.Container className="flex gap-2">
-          {authStatus ? <Logout/> : null}
-          <Navbar.Toggle />
-        </Navbar.Container>
+       
       </Navbar.Container>
     </Navbar>
   );

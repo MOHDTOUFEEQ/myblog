@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import service from '../../appwrite/config'
 import { useSelector } from 'react-redux'
@@ -8,6 +8,7 @@ import { useEffect } from 'react'
 
 function Postform({post}) {
     const navigate = useNavigate()
+    const[error,setError] = useState()
     const userData = useSelector((state)=> state.auth.userData)
     const {register,handleSubmit,watch,setValue,} = useForm({
         defaultValues:{
@@ -22,30 +23,40 @@ function Postform({post}) {
   // Use useEffect to perform actions when watched value changes
   useEffect(() => {
     function slugtranform(value) {
-      const transformedValue = value.replace(/\s+/g, '-');
+      const transformedValue = value.replace(/[,\s]+/g, '-');
       setValue("slug",transformedValue,{required:true})
     }
     slugtranform(watchedFieldValue)
     // You can perform additional actions based on the watched value
   }, [watchedFieldValue]);
 
-    const formsubmit = async(data)=>{
+  const formsubmit = async(data)=>{
+      try {
         if (data) {
             const file = await service.uploadFile(data.image[0])
             if (file) {
                 const fileId = file.$id;
                 data.featuredImage = fileId;
                 const userId = userData ? userData.$id : null;
-                const post = await service.createPost({...data , userId })
-                if (post) {
-                    navigate("/")
-                }
+                  const post = await service.createPost({...data , userId })
+                  if (post) {
+                      navigate("/")
+                  }
+                } 
+              }
+              
             }
-            
-        }
+      catch (error) {
+        setError("Please don't use any commas, colons, or special characters in the title. Updates coming soon!");
+      }
     }
   return (
     <div className="max-w-3xl mx-auto mt-8">
+      <div className="bg-green-200 p-4 rounded-md mb-4">
+      <p className="text-sm">⚠️ Avoid special characters in the title for a smoother experience. Updates for more flexibility coming soon!</p>
+
+      {/* Your form goes here */}
+    </div>
       <form onSubmit={handleSubmit(formsubmit)} className="space-y-6">
         <div>
           <label htmlFor="title" className="block text-sm font-medium text-gray-700">
@@ -63,31 +74,31 @@ function Postform({post}) {
         </div>
 
         <div>
-          <label htmlFor="slug" className=" block text-sm font-medium text-gray-700">
+          <label htmlFor="slug" className=" hidden text-sm font-medium text-gray-700">
             Slug
           </label>
           <input
             type="text"
             id="slug"
             className="mt-1 p-2 w-full border rounded-md"
-            required
             {...register("slug",{
-                required: true,
+                required: false,
             })}
+            hidden
             disabled
           />
         </div>
 
         <div>
-          <label htmlFor="status" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="status" className="hidden text-sm font-medium text-gray-700">
             Status
           </label>
           <select
             id="status"
             className="mt-1 p-2 w-full border rounded-md"
-            required
+            hidden
             {...register("status",{
-                required: true,
+                required: false,
             })}
           >
             <option value="draft">Active</option>
