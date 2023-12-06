@@ -13,6 +13,7 @@ function ViewBlog() {
         service.getPost(id)
             .then((curr_post) => {
                 setPost(curr_post);
+                console.log(curr_post);
                 setLoading(false);
             })
             .catch((err) => {
