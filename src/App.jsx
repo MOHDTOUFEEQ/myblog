@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import authService from './appwrite/auth'
-import { login } from './store/authSlice'
+import { login, logout } from './store/authSlice'
 
 
 function App() {
