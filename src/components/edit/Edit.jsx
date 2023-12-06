@@ -59,7 +59,19 @@ function Edit() {
                     } else {
                         console.log('Failed to upload image.');
                     }
-                } else {
+                
+                }
+                else if(data){
+                    const updating = await service.updatePost(post.$id, { ...data });
+        
+                    if (updating) {
+                        // Assuming navigate is a function for navigation
+                        navigate("/");
+                    } else {
+                        console.log('Failed to update post.');
+                    }
+                }
+                else {
                     console.log('No image selected.');
                 }
             } catch (error) {
@@ -85,33 +97,17 @@ function Edit() {
                 </div>
 
                 <div>
-                    <label htmlFor="slug" className="block text-sm font-medium text-gray-700">
-                        Slug
-                    </label>
                     <input
                         type="text"
                         id="slug"
                         className="mt-1 p-2 w-full border rounded-md"
                         required
+                        hidden
                         {...register('slug', { required: true })}
                         disabled
                     />
                 </div>
 
-                <div>
-                    <label htmlFor="status" className="block text-sm font-medium text-gray-700">
-                        Status
-                    </label>
-                    <select
-                        id="status"
-                        className="mt-1 p-2 w-full border rounded-md"
-                        required
-                        {...register('status', { required: true })}
-                    >
-                        <option value="draft">Active</option>
-                        <option value="published">Deactive</option>
-                    </select>
-                </div>
                 {post &&
                     <div>
                         <img className='h-1/4 w-1/4' src={service.getFilePreview(post.featuredImage)} alt="Preview"/>
@@ -127,9 +123,8 @@ function Edit() {
                         id="image"
                         className="mt-1 p-2 w-full border rounded-md"
                         accept="image/*"
-                        required
-                        {...register('image', { required: false })}
-                    formNoValidate />
+                        {...register('image')}
+                    />
                 </div>
 
                 <div>
