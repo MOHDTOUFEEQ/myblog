@@ -22,7 +22,7 @@ function Signup() {
             if (session) {
                 const userData = await authService.getCurrentUser();
                 dispatch(authlogin(userData));
-                navigate("/login");
+                navigate("/")
             }
         } catch (error) {
             setError(error.message);
