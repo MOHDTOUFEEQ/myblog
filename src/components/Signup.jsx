@@ -11,18 +11,24 @@ function Signup() {
     const dispatch = useDispatch()
     const {register, handleSubmit} = useForm()
     
-    const signingup = async(data)=>{
+    const signingup = async (data) => {
         try {
-            const session = await authService.createAccount(data)
+            if (data.confirm_password !== data.password) {
+                throw new Error("Passwords do not match");
+            }
+    
+            const session = await authService.createAccount(data);
+    
             if (session) {
-                const userData = await authService.getCurrentUser()
-                dispatch(authlogin(userData))
-                navigate("/login")
+                const userData = await authService.getCurrentUser();
+                dispatch(authlogin(userData));
+                navigate("/");
             }
         } catch (error) {
-            setError(error.message)
+            setError(error.message);
         }
-    }
+    };
+    
     return (
     <>
     <section>
@@ -100,6 +106,27 @@ function Signup() {
                         placeholder="Password"
                         id="password"
                         {...register("password",{
+                            required:true,
+                        })}
+                        />
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <label
+                        for="password_confirm"
+                        class="text-base font-medium text-gray-900"
+                        >
+                        {" "}
+                        confirm password{" "}
+                        
+                        </label>
+                    </div>
+                    <div class="mt-2">
+                        <input
+                        class="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                        type="password"
+                        placeholder="confirm password"
+                        id="confirm_password"
+                        {...register("confirm_password",{
                             required:true,
                         })}
                         />
