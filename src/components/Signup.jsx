@@ -14,7 +14,7 @@ function Signup() {
     const signingup = async (data) => {
         try {
             if (data.confirm_password !== data.password) {
-                throw new Error("Passwords do not match");
+                throw new Error("Password do not match");
             }
     
             const session = await authService.createAccount(data);
