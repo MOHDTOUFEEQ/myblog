@@ -14,15 +14,16 @@ function Signup() {
     const signingup = async (data) => {
         try {
             if (data.confirm_password !== data.password) {
+                console.log("log1");
                 throw new Error("Password do not match");
             }
-    
+            
+            console.log("log1_1");
             const session = await authService.createAccount(data);
-    
+            console.log("log2");
+            
             if (session) {
-                const userData = await authService.getCurrentUser();
-                dispatch(authlogin(userData));
-                navigate("/")
+                await authService.getCurrentUser().then((userData)=> dispatch(authlogin(userData)) ).then(()=>navigate("/"));
             }
         } catch (error) {
             setError(error.message);
