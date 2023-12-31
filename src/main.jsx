@@ -60,9 +60,7 @@ const router = createBrowserRouter([
       {
         path : "/all-Blog/:id",
         element:(
-          <Protection>
             <ViewBlog/>   
-          </Protection>
       ),
       },{
         path: "/homeview/:id",
