@@ -60,14 +60,14 @@ const router = createBrowserRouter([
       {
         path : "/all-Blog/:id",
         element:(
-            <ViewBlog/>   
+          <Protection>
+            <ViewBlog/>  
+          </Protection>
       ),
       },{
         path: "/homeview/:id",
         element:(
-          <Protection>
             <HomeViewBlog />
-          </Protection>
         )
       },
       {
