@@ -36,11 +36,13 @@ export const Header = () => {
 
     window.addEventListener("resize", handleResize);
     document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("scroll", handleClickOutside);
 
     // Cleanup event listeners
     return () => {
       window.removeEventListener("resize", handleResize);
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("scroll", handleClickOutside);
     };
   }, []);
 
