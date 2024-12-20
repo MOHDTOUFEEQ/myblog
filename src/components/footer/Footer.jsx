@@ -1,41 +1,77 @@
-import React from 'react';
-
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white py-12 overflow-x-hidden">
-      <div className="container flex flex-wrap gap-1 gap-y-2 py-4 justify-between items-center">
-        {/* About Us */}
-        <div className="col-span-1 w-full md:w-3/6 py-4">
-          <h2 className="text-2xl font-bold mb-4">About Me</h2>
-          <p className="text-sm">I am a seasoned web developer with a wealth of experience, specializing in the creation of robust and innovative web solutions. My expertise encompasses a broad range of technologies and frameworks, allowing me to craft dynamic and efficient web applications tailored to meet the unique requirements of diverse projects.</p>
+    <footer className="bg-[#FFFAE3] text-black py-12 overflow-x-hidden">
+      <div className="container flex flex-col md:flex-row justify-between items-center mx-auto px-6">
+        {/* Left Section */}
+        <div className="text-center md:text-left mb-6 md:mb-0">
+          <h2 className="text-4xl font-bold">TOUFEEQ</h2>
+          <h2 className="text-2xl font-bold mt-2">PORTFOLIO</h2>
         </div>
 
-        {/* Contact */}
-        <div className="col-span-1 w-full md:w-auto py-4">
-          <h2 className="text-2xl font-bold mb-4">Contact</h2>
-          <p className="text-sm">Email: mohdtoufeeq1447@gmail.com</p>
-        </div>
-
-        {/* Social Media */}
-        <div className="col-span-1 w-full md:w-auto">
-          <h2 className="text-2xl font-bold mb-4">Connect with Me</h2>
-          <div className="flex space-x-4">
-            <a href="https://www.linkedin.com/in/mohammed-toufeeq-956042266/" target='_blank' className="text-blue-500 text-white hover:text-blue-700" title="LinkedIn">
-              LinkedIn
+        {/* Social Media Section */}
+        <div className="text-center">
+          <h2 className="text-xl font-bold mb-4">Social</h2>
+          <div className="flex justify-center space-x-4">
+            <a
+              href="https://www.linkedin.com/in/mohammed-toufeeq-956042266/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gray-700"
+            >
+              <img
+                src="/path/to/linkedin-icon.png"
+                alt="LinkedIn"
+                className="h-6 w-6"
+              />
             </a>
-            <a href="https://github.com/MOHDTOUFEEQ" target='_blank' className="text-blue-400 text-white hover:text-blue-600" title="Github">
-              Github
+            <a
+              href="https://github.com/MOHDTOUFEEQ"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gray-700"
+            >
+              <img
+                src="/path/to/github-icon.png"
+                alt="GitHub"
+                className="h-6 w-6"
+              />
             </a>
-            <a href="#" className="text-red-500 hover:text-red-700" title="YouTube">
-              <i className="fab fa-youtube"></i>
+            <a
+              href="#"
+              className="hover:text-gray-700"
+            >
+              <img
+                src="/path/to/instagram-icon.png"
+                alt="Instagram"
+                className="h-6 w-6"
+              />
+            </a>
+            <a
+              href="#"
+              className="hover:text-gray-700"
+            >
+              <img
+                src="/path/to/twitter-icon.png"
+                alt="Twitter"
+                className="h-6 w-6"
+              />
             </a>
           </div>
         </div>
       </div>
 
-      {/* Copyright */}
-      <div className="mt-8 text-center">
-        <p className="text-sm md:w-25vw lg:w-80vw">&copy; 2023 Toufeeq. All rights reserved.</p>
+      {/* Bottom Section */}
+      <div className="mt-8 text-center text-sm">
+        <p>&copy; 2025 Toufeeq. All rights reserved.</p>
+        <p className="mt-1">
+          <a href="/privacy-policy" className="hover:underline">
+            Privacy Policy
+          </a>{" "}
+          |{" "}
+          <a href="/terms-of-use" className="hover:underline">
+            Terms of Use
+          </a>
+        </p>
       </div>
     </footer>
   );
