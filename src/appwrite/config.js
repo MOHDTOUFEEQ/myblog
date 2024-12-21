@@ -13,12 +13,12 @@ import { Client, Storage , ID , Databases, Query } from "appwrite";
         this.databases = new Databases(this.client);
         this.bucket = new Storage(this.client)
     }
-    async createPost({title,content,slug,status,featuredImage,userId}){
+    async createPost({title,content,slug,status,featuredImage,userId,titleHash}){
         try {
             await this.databases.createDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteCollectionId,
-                slug,
+                titleHash,
             {
                 title,
                 content,

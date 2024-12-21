@@ -32,17 +32,20 @@ function HomeViewBlog() {
     }
 
     return (
-        <div className="max-w-2xl mx-auto my-8 p-6 bg-white shadow-md rounded-md">
+        <div style={{height:"90vh"}}>
+
+        <div className="max-w-2xl mx-auto my-8 p-6 bg-white shadow-md rounded-md" style={{marginTop:'10vh'}}>
             <img
                 src={service.getFilePreview(post.featuredImage)}
                 alt="Featured"
                 className="w-full h-64 object-cover rounded-md mb-6"
-            />
+                />
             <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
             <p className="text-gray-700 mb-4">{post.content}</p>
             {/* Render other post details here */}
 
         </div>
+                </div>
     );
 }
 

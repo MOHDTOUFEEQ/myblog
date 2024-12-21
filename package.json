@@ -17,6 +17,8 @@
     "@reduxjs/toolkit": "^1.9.7",
     "appwrite": "^13.0.1",
     "autoprefixer": "^10.4.16",
+    "browser-image-compression": "^2.0.2",
+    "crypto-js": "^4.2.0",
     "keep-react": "^1.0.2",
     "postcss": "^8.4.31",
     "prop-types": "^15.8.1",

@@ -1,145 +1,184 @@
-import { useState, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
-import PropTypes from 'prop-types'; // Import PropTypes
-import service from '../../appwrite/config';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import PropTypes from "prop-types";
+import service from "../../appwrite/config";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import CryptoJS from "crypto-js";
+import imageCompression from "browser-image-compression";
 
-function Postform({ post }) {
+function Postform({ post = {} }) {
   const navigate = useNavigate();
-  const [error, setError] = useState();
+  const [error, setError] = useState(null);
   const userData = useSelector((state) => state.auth.userData);
+
   const { register, handleSubmit, watch, setValue } = useForm({
     defaultValues: {
-      title: post?.title || '',
-      slug: post?.slug || '',
-      status: post?.status || '',
-      content: post?.content || '',
+      title: post?.title || "",
+      slug: post?.slug || "",
+      status: post?.status || "",
+      content: post?.content || "",
     },
   });
 
-  const watchedFieldValue = watch('title');
+  const watchedFieldValue = watch("title");
 
   useEffect(() => {
     function slugTransform(value) {
-      const transformedValue = value.replace(/[,\s]+/g, '-');
-      setValue('slug', transformedValue, { required: true });
+      const transformedValue = value.replace(/[,\s]+/g, "-").toLowerCase();
+      setValue("slug", transformedValue, { shouldValidate: true });
     }
-    slugTransform(watchedFieldValue);
+    if (watchedFieldValue) {
+      slugTransform(watchedFieldValue);
+    }
   }, [watchedFieldValue, setValue]);
+
+  const generateHash = (value) => {
+    const urlSafeHash = CryptoJS.SHA256(value).toString(CryptoJS.enc.Hex);
+    return urlSafeHash.substring(0, 35);
+  };
 
   const formSubmit = async (data) => {
     try {
       if (data) {
-        const file = await service.uploadFile(data.image[0]);
+        const options = {
+          maxSizeMB: 1, // Max size in MB
+          maxWidthOrHeight: 1024, // Max width or height
+          useWebWorker: true, // Use a web worker for faster compression
+        };
+  
+        // Compress the image
+        const compressedBlob = await imageCompression(data.image[0], options);
+  
+        // Convert Blob to JPEG using canvas
+        const convertToJPEG = async (blob) => {
+          return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => {
+              const canvas = document.createElement("canvas");
+              const ctx = canvas.getContext("2d");
+              canvas.width = img.width;
+              canvas.height = img.height;
+              ctx.drawImage(img, 0, 0);
+              canvas.toBlob(
+                (blob) => {
+                  resolve(blob);
+                },
+                "image/jpeg",
+                0.8 // Quality setting for JPEG (0.0 - 1.0)
+              );
+            };
+            img.onerror = (err) => reject(err);
+            img.src = URL.createObjectURL(blob);
+          });
+        };
+  
+        const jpegBlob = await convertToJPEG(compressedBlob);
+  
+        // Convert Blob to File for Appwrite compatibility
+        const jpegFile = new File([jpegBlob], "image.jpg", { type: "image/jpeg" });
+  
+        // Upload the JPEG file
+        const file = await service.uploadFile(jpegFile);
+  
         if (file) {
           const fileId = file.$id;
           data.featuredImage = fileId;
+  
+          // Generate hash based on the title
+          const titleHash = generateHash(data.title);
+  
+          // Include userId and hash in the post data
           const userId = userData ? userData.$id : null;
-          const post = await service.createPost({ ...data, userId });
-          if (post) {
-            navigate('/');
+          const createdPost = await service.createPost({
+            ...data,
+            userId,
+            titleHash,
+          });
+  
+          if (createdPost) {
+            navigate("/");
           }
         }
       }
     } catch (error) {
       setError(
-        "Please don't use any commas, colons, or special characters in the title. Updates coming soon!",
+        "Please don't use commas, colons, or special characters in the title. Updates coming soon!"
       );
     }
   };
 
   return (
-    <div className="max-w-3xl mx-auto mt-8 px-1">
-      <div className="bg-green-200 p-4 rounded-md mb-4">
-        <p className="text-sm">
-          ⚠️ Avoid special characters in the title for a smoother experience.
-          Updates for more flexibility coming soon!
-        </p>
-      </div>
+    <div
+      className="max-w-3xl mx-auto mt-15vh h-auto px-5 py-8 bg-white shadow-lg rounded-lg"
+      style={{ marginTop: "10vh", height: "90vh", paddingTop: "15vh" }}
+    >
+      {error && (
+        <div className="bg-red-50 border-l-4 border-red-400 text-red-600 p-4 mb-6 rounded-md">
+          <p className="text-sm font-medium">{error}</p>
+        </div>
+      )}
+
       <form onSubmit={handleSubmit(formSubmit)} className="space-y-6">
         {/* Title */}
         <div>
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="title"
+            className="block text-sm font-semibold text-gray-700"
+          >
             Title
           </label>
           <input
             type="text"
             id="title"
-            className="mt-1 p-2 w-full border rounded-md"
+            className="mt-2 w-full p-3 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+            placeholder="Enter the title of your post"
             required
-            {...register('title', { required: true })}
+            {...register("title", { required: true })}
           />
-        </div>
-        <h4>
-        {{error}}
-        </h4>
-
-        {/* Slug */}
-        <div>
-          <label htmlFor="slug" className="hidden text-sm font-medium text-gray-700">
-            Slug
-          </label>
-          <input
-            type="text"
-            id="slug"
-            className="mt-1 p-2 w-full border rounded-md"
-            {...register('slug', { required: false })}
-            hidden
-            disabled
-          />
-        </div>
-
-        {/* Status */}
-        <div>
-          <label htmlFor="status" className="hidden text-sm font-medium text-gray-700">
-            Status
-          </label>
-          <select
-            id="status"
-            className="mt-1 p-2 w-full border rounded-md"
-            hidden
-            {...register('status', { required: false })}
-          >
-            <option value="draft">Active</option>
-            <option value="published">Deactive</option>
-          </select>
         </div>
 
         {/* Image */}
         <div>
-          <label htmlFor="image" className="block text-sm font-medium text-gray-700">
-            Image
+          <label
+            htmlFor="image"
+            className="block text-sm font-semibold text-gray-700"
+          >
+            Featured Image
           </label>
           <input
             type="file"
             id="image"
-            className="mt-1 p-2 w-full border rounded-md"
+            className="mt-2 w-full p-3 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
             accept="image/*"
             required
-            {...register('image', { required: true })}
+            {...register("image", { required: true })}
           />
         </div>
 
         {/* Content */}
         <div>
-          <label htmlFor="content" className="block text-sm font-medium text-gray-700">
+          <label
+            htmlFor="content"
+            className="block text-sm font-semibold text-gray-700"
+          >
             Content
           </label>
           <textarea
             id="content"
-            className="mt-1 p-2 w-full border rounded-md"
+            className="mt-2 w-full p-3 border rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+            placeholder="Write the content of your post..."
             rows="8"
             required
-            {...register('content', { required: true })}
+            {...register("content", { required: true })}
           />
         </div>
 
         {/* Submit Button */}
-        <div>
+        <div className="flex justify-end">
           <button
             type="submit"
-            className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="px-6 py-3 bg-indigo-600 text-white text-sm font-medium rounded-lg shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
           >
             Submit
           </button>
@@ -149,7 +188,6 @@ function Postform({ post }) {
   );
 }
 
-// Add PropTypes validation
 Postform.propTypes = {
   post: PropTypes.shape({
     title: PropTypes.string,

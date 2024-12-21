@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'; // Import PropTypes
 import service from '../../appwrite/config';
+// import { Link } from 'react-router-dom';
 
 function Postcard({ post }) {
   return (
@@ -20,14 +21,15 @@ function Postcard({ post }) {
     </div> */}
     <div className="bg-gray-100 p-4">
         <div className="bg-white border rounded-sm max-w-md">
-             <a href={`/profile/${post.title}`}>
+        {/* <Link to={`/profile/${post.title}`}> */}
+
           <div className="flex items-center px-4 py-3">
            <div className="ml-3 ">
               <span className="text-sm font-semibold antialiased block leading-tight">{post.title}</span>
               {/* <span className="text-gray-600 text-xs block">{post.title}</span> */}
             </div>
           </div>
-              </a>
+        {/* </Link> */}
           <div style={{ position: 'relative', overflow: 'hidden', maxHeight: '450px' }}>
             <img src={service.getFilePreview(post.featuredImage)} className="w-full h-full object-fit-contain" alt="Post Image" />
       
