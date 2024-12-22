@@ -48,13 +48,13 @@ function Signup() {
             const session = await authService.createAccount(data);
 
             if (session) {
-                await authService.getCurrentUser()
-                    .then((userData) => dispatch(authlogin(userData)))
-                    .then(() => {
+                // await authService.getCurrentUser()
+                //     .then((userData) => dispatch(authlogin(userData)))
+                //     .then(() => {
                         setSuccess("Account created successfully! Redirecting..."); // Success message
                         setIsRedirecting(true);  // Set redirecting state to true
                         setTimeout(() => navigate("/login"), 2000);  // Redirect after 2 seconds
-                    });
+                    // });
             }
         } catch (error) {
             setError(error.message);  // Display error message
