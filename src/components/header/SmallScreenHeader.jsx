@@ -58,7 +58,7 @@ export const SmallScreenHeader = () => {
             position: "bottom",
           },
           {
-            element: document.querySelector(".login-signup"), // Target the Login/Sign Up link
+            element:svgRef.current, // Target the Login/Sign Up link
             intro: "You need to log in or sign up to create your own blogs.",
             position: "top", // Adjust position based on the UI layout
           },
