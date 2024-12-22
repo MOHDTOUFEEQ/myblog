@@ -32,7 +32,7 @@ function HomeViewBlog() {
     }
 
     return (
-        <div style={{height:"90vh"}}>
+        <div style={{minHeight:"90vh"}}>
 
         <div className="max-w-2xl mx-auto my-8 p-6 bg-white shadow-md rounded-md" style={{marginTop:'10vh'}}>
             <img

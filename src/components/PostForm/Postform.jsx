@@ -10,6 +10,8 @@ import imageCompression from "browser-image-compression";
 function Postform({ post = {} }) {
   const navigate = useNavigate();
   const [error, setError] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false); // State for form submission
+  const [message, setMessage] = useState(null); // State for success message
   const userData = useSelector((state) => state.auth.userData);
 
   const { register, handleSubmit, watch, setValue } = useForm({
@@ -40,17 +42,16 @@ function Postform({ post = {} }) {
 
   const formSubmit = async (data) => {
     try {
+      setIsSubmitting(true); // Set submitting state
       if (data) {
         const options = {
-          maxSizeMB: 1, // Max size in MB
-          maxWidthOrHeight: 1024, // Max width or height
-          useWebWorker: true, // Use a web worker for faster compression
+          maxSizeMB: 1,
+          maxWidthOrHeight: 1024,
+          useWebWorker: true,
         };
-  
-        // Compress the image
+
         const compressedBlob = await imageCompression(data.image[0], options);
-  
-        // Convert Blob to JPEG using canvas
+
         const convertToJPEG = async (blob) => {
           return new Promise((resolve, reject) => {
             const img = new Image();
@@ -61,74 +62,72 @@ function Postform({ post = {} }) {
               canvas.height = img.height;
               ctx.drawImage(img, 0, 0);
               canvas.toBlob(
-                (blob) => {
-                  resolve(blob);
-                },
+                (blob) => resolve(blob),
                 "image/jpeg",
-                0.8 // Quality setting for JPEG (0.0 - 1.0)
+                0.8
               );
             };
             img.onerror = (err) => reject(err);
             img.src = URL.createObjectURL(blob);
           });
         };
-  
+
         const jpegBlob = await convertToJPEG(compressedBlob);
-  
-        // Convert Blob to File for Appwrite compatibility
         const jpegFile = new File([jpegBlob], "image.jpg", { type: "image/jpeg" });
-  
-        // Upload the JPEG file
+
         const file = await service.uploadFile(jpegFile);
-  
+
         if (file) {
           const fileId = file.$id;
           data.featuredImage = fileId;
-  
-          // Generate hash based on the title
           const titleHash = generateHash(data.title);
-  
-          // Include userId and hash in the post data
           const userId = userData ? userData.$id : null;
+
           const createdPost = await service.createPost({
             ...data,
             userId,
             titleHash,
           });
-  
+
           if (createdPost) {
-            navigate("/");
+            setMessage("Post created successfully! Redirecting...");
+            setTimeout(() => navigate("/"), 2000); // Redirect after 2 seconds
           }
         }
       }
     } catch (error) {
-      setError(
-        "Please don't use commas, colons, or special characters in the title. Updates coming soon!"
-      );
+      setError("Failed to create the post. Please try again.");
+    } finally {
+      setIsSubmitting(false); // Reset submitting state
     }
   };
 
   return (
-<div
-  className="postting max-w-3xl mx-auto px-5 py-8 bg-white shadow-lg rounded-lg mt-[10vh] sm:h-[105vh] md:h-[95vh] h-auto pt-[6vh]"
-  style={{height:'100vh'}}
->
-
+    <div
+      className="postting max-w-3xl mx-auto px-5 py-8 bg-white shadow-lg rounded-lg mt-[10vh] sm:h-[105vh] md:h-[95vh] h-auto pt-[6vh]"
+      style={{ height: "100vh" }}
+    >
       {error && (
         <div className="bg-red-50 border-l-4 border-red-400 text-red-600 p-4 mb-6 rounded-md">
           <p className="text-sm font-medium">{error}</p>
         </div>
       )}
 
-      {/* Title Section */}
-      <div className="text-center mb-10" style={{    position: 'relative',
-    bottom: '2vh'}}>
+      {message && (
+        <div className="bg-green-50 border-l-4 border-green-400 text-green-600 p-4 mb-6 rounded-md">
+          <p className="text-sm font-medium">{message}</p>
+        </div>
+      )}
+
+      <div
+        className="text-center mb-10"
+        style={{ position: "relative", bottom: "2vh" }}
+      >
         <h1 className="text-4xl font-bold text-gray-800">Create Your Blog Post</h1>
         <p className="text-lg text-gray-600">Share your thoughts and ideas with the world!</p>
       </div>
 
       <form onSubmit={handleSubmit(formSubmit)} className="space-y-6">
-        {/* Title */}
         <div>
           <label
             htmlFor="title"
@@ -146,7 +145,6 @@ function Postform({ post = {} }) {
           />
         </div>
 
-        {/* Image */}
         <div>
           <label
             htmlFor="image"
@@ -164,7 +162,6 @@ function Postform({ post = {} }) {
           />
         </div>
 
-        {/* Content */}
         <div>
           <label
             htmlFor="content"
@@ -182,13 +179,17 @@ function Postform({ post = {} }) {
           />
         </div>
 
-        {/* Submit Button */}
         <div className="flex justify-end">
           <button
             type="submit"
-            className="px-6 py-3 bg-indigo-600 text-white text-sm font-medium rounded-lg shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            disabled={isSubmitting} // Disable button during submission
+            className={`px-6 py-3 text-sm font-medium rounded-lg shadow ${
+              isSubmitting
+                ? "bg-gray-400 text-gray-800 cursor-not-allowed"
+                : "bg-indigo-600 text-white hover:bg-indigo-700"
+            }`}
           >
-            Submit
+            {isSubmitting ? "Submitting..." : "Submit"} {/* Dynamic button text */}
           </button>
         </div>
       </form>
