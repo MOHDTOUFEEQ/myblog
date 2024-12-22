@@ -51,10 +51,10 @@ export const Header = () => {
   };
 
   return (
-    <div ref={headerRef} className="fixed z-50 top-0 w-full bg-white shadow-lg" style={{height:"7vh"}}>
-      <Navbar fluid={true} >
+    <div ref={headerRef} className="fixed z-50 top-0 w-full bg-white shadow-lg" style={{height:"8vh"}}>
+      <Navbar fluid={true} style={{height:"100%"}}>
         {/* Top Navbar */}
-        <Navbar.Container className="flex items-center justify-between px-4 py-3">
+        <Navbar.Container className="flex items-center justify-between px-5">
           <p
             onClick={() => navigate("/")}
             className="text-xl font-semibold cursor-pointer text-gray-800"

@@ -26,7 +26,7 @@ function AuthenticatedHome() {
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-wrap px-5 overflow-x-hidden" style={{ marginTop: "10vh" }}>
+    <div className="min-h-screen flex flex-wrap  overflow-x-hidden" style={{ marginTop: "10vh", paddingLeft:'0.25rem', paddingRight:'0.25rem' }}>
       {loading ? (
         // Skeleton loader
         <div className="min-h-screen flex flex-wrap gap-10 px-5">
@@ -45,7 +45,7 @@ function AuthenticatedHome() {
         </div>
       ) : (
         // Render posts
-        <div className="min-h-screen flex flex-wrap px-5 overflow-x-hidden">
+<div className="min-h-screen flex flex-wrap px-[0.75rem] overflow-x-hidden">
           {posts.map((val) => (
             <div key={val.$id} className="w-full md:w-[40vw] lg:w-[35vw] xl:w-[29vw] mb-10">
               <Link to={`/homeview/${val.$id}`}>
