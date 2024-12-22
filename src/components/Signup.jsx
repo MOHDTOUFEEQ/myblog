@@ -53,7 +53,7 @@ function Signup() {
                     .then(() => {
                         setSuccess("Account created successfully! Redirecting..."); // Success message
                         setIsRedirecting(true);  // Set redirecting state to true
-                        setTimeout(() => navigate("/"), 2000);  // Redirect after 2 seconds
+                        setTimeout(() => navigate("/login"), 2000);  // Redirect after 2 seconds
                     });
             }
         } catch (error) {
