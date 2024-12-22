@@ -109,10 +109,11 @@ function Postform({ post = {} }) {
   };
 
   return (
-    <div
-      className="max-w-3xl mx-auto mt-15vh h-auto px-5 py-8 bg-white shadow-lg rounded-lg"
-      style={{ marginTop: "10vh", height: "90vh", paddingTop: "6vh" }}
-    >
+<div
+  className="postting max-w-3xl mx-auto px-5 py-8 bg-white shadow-lg rounded-lg mt-[10vh] sm:h-[105vh] md:h-[95vh] h-auto pt-[6vh]"
+  style={{height:'100vh'}}
+>
+
       {error && (
         <div className="bg-red-50 border-l-4 border-red-400 text-red-600 p-4 mb-6 rounded-md">
           <p className="text-sm font-medium">{error}</p>

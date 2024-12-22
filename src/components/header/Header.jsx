@@ -22,6 +22,8 @@ export const Header = () => {
   useEffect(() => {
     const handleResize = () => {
       const isLarge = window.matchMedia("(min-width: 1024px)").matches;
+      console.log("Screen size check (large):", isLarge);  // Debug log
+
       setIsLargeScreen(isLarge);
       if (isLarge) {
         setIsMenuOpen(false); // Close menu on larger screens
@@ -54,7 +56,7 @@ export const Header = () => {
     <div ref={headerRef} className="fixed z-50 top-0 w-full bg-white shadow-lg" style={{height:"8vh"}}>
       <Navbar fluid={true} style={{height:"100%"}}>
         {/* Top Navbar */}
-        <Navbar.Container className="flex items-center justify-between px-5">
+        <Navbar.Container className="flex items-center justify-between px-[1.15rem]">
           <p
             onClick={() => navigate("/")}
             className="text-xl font-semibold cursor-pointer text-gray-800"
@@ -120,48 +122,46 @@ export const Header = () => {
 
         {/* Mobile Dropdown Menu */}
         {isMenuOpen && (
-  <div
-    style={{
-      borderRadius: "30px",
-      marginTop: "1vh",
-      transition: "all 2s ease-in-out",
-    }}
-    className={`absolute top-14 left-0 w-full bg-white shadow-lg z-40 py-4 transform ${
-      isMenuOpen ? "translate-y-0" : "-translate-y-full"
-    }`}
-  >
-    <Navbar.Container
-      tag="ul"
-      className="flex flex-col items-start gap-4 px-6 pt-1 pl-14 pr-6"
-    >
-      {navItems.map(
-        (item) =>
-          item.active && (
-            <li
-              key={item.name}
-              className="w-full hover:bg-gray-100 rounded-md transition duration-200"
+          <div
+            style={{
+              borderRadius: "30px",
+              transition: "all 2s ease-in-out",
+            }}
+            className={`absolute top-14 left-0 w-full bg-white shadow-lg z-40 py-4 transform ${
+              isMenuOpen ? "translate-y-0" : "-translate-y-full"
+            }`}
+          >
+            <Navbar.Container
+              tag="ul"
+              className="flex flex-col items-start gap-4 px-6 pt-1 pl-14 pr-6"
             >
-              <button
-                onClick={() => {
-                  navigate(item.slug);
-                  setIsMenuOpen(false);
-                }}
-                className="text-lg font-semibold w-full text-left text-gray-800 py-2 hover:text-blue-500"
-              >
-                {item.name}
-              </button>
-            </li>
-          )
-      )}
-      {authStatus && (
-        <div className="mt-4 w-full border-t border-gray-300 pt-4">
-          <Logout />
-        </div>
-      )}
-    </Navbar.Container>
-  </div>
-)}
-
+              {navItems.map(
+                (item) =>
+                  item.active && (
+                    <li
+                      key={item.name}
+                      className="w-full hover:bg-gray-100 rounded-md transition duration-200"
+                    >
+                      <button
+                        onClick={() => {
+                          navigate(item.slug);
+                          setIsMenuOpen(false);
+                        }}
+                        className="text-lg font-semibold w-full text-left text-gray-800 py-2 hover:text-blue-500"
+                      >
+                        {item.name}
+                      </button>
+                    </li>
+                  )
+              )}
+              {authStatus && (
+                <div className="mt-4 w-full border-t border-gray-300 pt-4">
+                  <Logout />
+                </div>
+              )}
+            </Navbar.Container>
+          </div>
+        )}
       </Navbar>
     </div>
   );
