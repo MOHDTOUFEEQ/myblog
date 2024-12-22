@@ -51,7 +51,7 @@ export const Header = () => {
   };
 
   return (
-    <div ref={headerRef} className="fixed z-50 top-0 w-full bg-white shadow-lg" style={{height:"9vh"}}>
+    <div ref={headerRef} className="fixed z-50 top-0 w-full bg-white shadow-lg" style={{height:"7vh"}}>
       <Navbar fluid={true} >
         {/* Top Navbar */}
         <Navbar.Container className="flex items-center justify-between px-4 py-3">
