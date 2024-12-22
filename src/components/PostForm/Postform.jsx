@@ -111,13 +111,20 @@ function Postform({ post = {} }) {
   return (
     <div
       className="max-w-3xl mx-auto mt-15vh h-auto px-5 py-8 bg-white shadow-lg rounded-lg"
-      style={{ marginTop: "10vh", height: "90vh", paddingTop: "15vh" }}
+      style={{ marginTop: "10vh", height: "90vh", paddingTop: "6vh" }}
     >
       {error && (
         <div className="bg-red-50 border-l-4 border-red-400 text-red-600 p-4 mb-6 rounded-md">
           <p className="text-sm font-medium">{error}</p>
         </div>
       )}
+
+      {/* Title Section */}
+      <div className="text-center mb-10" style={{    position: 'relative',
+    bottom: '2vh'}}>
+        <h1 className="text-4xl font-bold text-gray-800">Create Your Blog Post</h1>
+        <p className="text-lg text-gray-600">Share your thoughts and ideas with the world!</p>
+      </div>
 
       <form onSubmit={handleSubmit(formSubmit)} className="space-y-6">
         {/* Title */}

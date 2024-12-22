@@ -7,19 +7,11 @@ import service from "../appwrite/config";
 function Allblogs() {
   const userid = useSelector((state) => state.auth.userData);
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true); // Loading state
 
   useEffect(() => {
-    // Dummy data for testing
-    // const dummyPosts = [
-    //   { $id: "1", title: "Blog One", content: "This is the first blog." },
-    //   { $id: "2", title: "Blog Two", content: "This is the second blog." },
-    // ];
-
-    // Use dummy data instead of fetching for now
-    // setPosts(dummyPosts);
-
-    // Actual fetching logic (commented out for testing)
     async function fetching() {
+      setLoading(true); // Start loading
       try {
         const post = await service.getPostsForCurrentUser(userid.$id);
         if (post) {
@@ -28,14 +20,38 @@ function Allblogs() {
       } catch (error) {
         console.error("Error fetching posts:", error);
       }
+      setLoading(false); // End loading
     }
 
     fetching();
   }, [userid]);
 
   return (
-    <div className="min-h-screen mt-10vh px-5" style={{marginTop:"10vh"}}>
-      {posts.length > 0 ? (
+    <div className="min-h-screen px-5 mt-10" style={{ marginTop: "10vh" }}>
+      {/* Title Section */}
+      <div className="text-center mb-10">
+        <h1 className="text-5xl font-extrabold text-gray-800">
+          Your Blog Posts
+        </h1>
+      </div>
+
+      {/* Loading State */}
+      {loading ? (
+        <div className="flex flex-wrap gap-4 md:gap-8 lg:gap-12 xl:gap-16">
+          {Array(6)
+            .fill()
+            .map((_, index) => (
+              <div
+                key={index}
+                className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 mb-4 p-4 bg-gray-200 animate-pulse rounded-lg"
+              >
+                <div className="h-40 bg-gray-300 rounded-md mb-4"></div>
+                <div className="h-6 bg-gray-300 rounded-md mb-2"></div>
+                <div className="h-4 bg-gray-300 rounded-md"></div>
+              </div>
+            ))}
+        </div>
+      ) : posts.length > 0 ? (
         <div className="flex flex-wrap gap-4 md:gap-8 lg:gap-12 xl:gap-16">
           {posts.map((post) => (
             <Link

@@ -19,7 +19,9 @@ function Postcard({ post }) {
         </button>
       </div>
     </div> */}
-    <div className="bg-gray-100 p-4">
+    <div className="bg-gray-100 p-4" style={{display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'}}>
         <div className="bg-white border rounded-sm max-w-md">
         {/* <Link to={`/profile/${post.title}`}> */}
 
