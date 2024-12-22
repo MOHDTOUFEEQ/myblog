@@ -51,8 +51,8 @@ export const Header = () => {
   };
 
   return (
-    <div ref={headerRef} className="fixed z-50 top-0 w-full bg-white shadow-lg">
-      <Navbar fluid={true}>
+    <div ref={headerRef} className="fixed z-50 top-0 w-full bg-white shadow-lg" style={{height:"9vh"}}>
+      <Navbar fluid={true} >
         {/* Top Navbar */}
         <Navbar.Container className="flex items-center justify-between px-4 py-3">
           <p
