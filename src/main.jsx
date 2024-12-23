@@ -14,7 +14,7 @@ import Postform from './components/PostForm/Postform.jsx'
 import ViewBlog from './components/ViewBlog.jsx'
 import HomeViewBlog from './components/HomeViewBlog.jsx'
 import Edit from './components/edit/Edit.jsx'
-
+import { Analytics } from "@vercel/analytics/react"
 const router = createBrowserRouter([
   {
     path: "/",
@@ -85,5 +85,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <Provider store={store}>
       <RouterProvider router={router} />
     </Provider>
+    <Analytics />
   </React.StrictMode>,
 )
