@@ -63,7 +63,7 @@ export const BigScreenHeader = () => {
                   )
               )}
               <li >
-                <Link to={"/test"}>
+                <Link to={"/trail"}>
                   Test
                 </Link>
                   </li>
