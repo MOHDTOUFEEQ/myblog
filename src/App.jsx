@@ -6,7 +6,6 @@ import { useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import authService from './appwrite/auth'
 import { login, logout } from './store/authSlice'
-import Trail from './components/Trail'
 function App() {
   const [loading, setLoading] = useState(true)
   const dispatch = useDispatch()

@@ -32,7 +32,7 @@ function ViewBlog() {
                 setMessage("Post has been deleted successfully!"); // Set the deletion message
                 setTimeout(() => navigate("/"), 2000); // Redirect after 2 seconds
             })
-            .catch((err) => {
+            .catch(() => {
                 setMessage("Failed to delete the post. Please try again.");
                 setIsDeleting(false); // Reset deletion state on error
             });

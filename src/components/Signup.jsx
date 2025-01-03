@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react'
-import { login as authlogin } from '../store/authSlice';
-import { useDispatch } from 'react-redux'
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from 'react-router-dom'
 import authService from '../appwrite/auth';
@@ -10,7 +8,6 @@ function Signup() {
     const [error, setError] = useState()
     const [success, setSuccess] = useState() // Success state
     const [isRedirecting, setIsRedirecting] = useState(false) // New state to track redirection
-    const dispatch = useDispatch()
     const { register, handleSubmit } = useForm()
     const [isLargeScreen, setIsLargeScreen] = useState(false);
 
