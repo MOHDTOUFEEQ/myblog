@@ -15,6 +15,7 @@ import ViewBlog from './components/ViewBlog.jsx'
 import HomeViewBlog from './components/HomeViewBlog.jsx'
 import Edit from './components/edit/Edit.jsx'
 import { Analytics } from "@vercel/analytics/react"
+import Demo from './components/Demo.jsx'
 const router = createBrowserRouter([
   {
     path: "/",
@@ -75,7 +76,13 @@ const router = createBrowserRouter([
         element:(
           <Edit/>
         )
-      } ,      
+      } ,     
+      {
+        path:"/trail",
+        element:(
+          <Demo/>
+        )
+      } ,  
     ]
   }
 ])
