@@ -62,11 +62,6 @@ export const BigScreenHeader = () => {
                     </li>
                   )
               )}
-              <li >
-                <Link to={"/trail"}>
-                  Test
-                </Link>
-                  </li>
               {authStatus && (
                 <li>
                   <Logout />
