@@ -62,6 +62,11 @@ export const BigScreenHeader = () => {
                     </li>
                   )
               )}
+              <li >
+                <Link to={"/test"}>
+                  Test
+                </Link>
+                  </li>
               {authStatus && (
                 <li>
                   <Logout />
