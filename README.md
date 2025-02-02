@@ -12,7 +12,7 @@ A modern blog platform built with **React.js**, **Tailwind CSS**, and **Appwrite
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/MOHDTOUFEEQ/myblogs.git
+   git clone https://github.com/MOHDTOUFEEQ/myblog.git
    
 2. Install dependencies:
    ```bash
